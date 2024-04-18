@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: nilsmf auth service
+  description: |-
+    This is the endpoints in the nilsmf-ase service
+  contact:
+    email: nilsien2001@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+servers:
+  - url: todo
+tags:
+  - name: meta
+    description: Information about the service.
+  - name: auth
+    description: Authentication stuff
+paths:
+  /ase/meta/version:
+    get:
+      tags:
+        - meta
+      summary: Gets the running version of the service
+      responses:
+        "200":
+          description: Gets the running version of the service
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Version"
+  /ase/meta/runtime:
+    get:
+      tags:
+        - meta
+      summary: Gets the runtime of the service
+      responses:
+        "200":
+          description: Gets the runtime of the service
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Runtime"
+  /ase/auth:
+    post:
+      tags:
+        - auth
+      summary: Logs a user in
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Logs a user in
+          headers:
+            token:
+              description: Authentication token
+              schema:
+                type: string
+        
+  /ase/auth/logout:
+    post:
+      tags:
+        - auth
+      summary: Logs a user out
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Token"
+      responses:
+        "200":
+          description: Logged out successfully
+
+  /ase/auth/refresh:
+    get:
+      tags:
+        - auth
+      summary: Refreshes the user token
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Token refreshed successfully
+          headers:
+            token:
+              description: Authentication token
+              schema:
+                type: string
+
+  /ase/auth/validate:
+    post:
+      tags:
+        - auth
+      summary: Returns true if the token is valid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Token"
+      responses:
+        "200":
+          description: Token validated successfully
+          content:
+            application/json:
+              schema:
+                type: boolean
+
+components:
+  schemas:
+    Version:
+      type: object
+      properties:
+        major:
+          type: integer
+          format: int64
+        minor:
+          type: integer
+          format: int64
+        patch:
+          type: integer
+          format: int64
+    Runtime:
+      type: object
+      properties:
+        time:
+          type: integer
+          format: int64
+          description: Time running, in seconds
+        date:
+          type: string
+          format: date-time
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
