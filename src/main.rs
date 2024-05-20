@@ -26,17 +26,9 @@ async fn main() -> Result<()> {
             "/",
             SwaggerUi::new("/swagger-ui/<_..>").url("/api-docs/openapi.json", ApiDoc::openapi()),
         )
-        // There is no need to create RapiDoc::with_openapi because the OpenApi is served
-        // via SwaggerUi instead we only make rapidoc to point to the existing doc.
         .mount("/", RapiDoc::new("/api-docs/openapi.json").path("/rapidoc"))
-        // Alternative to above
-        // .mount(
-        //     "/",
-        //     RapiDoc::with_openapi("/api-docs/openapi2.json", ApiDoc::openapi()).path("/rapidoc")
-        // )
         .mount("/api/", routes![get_version])
         .launch()
         .await?;
-
     Ok(())
 }

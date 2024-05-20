@@ -1,8 +1,10 @@
 [package]
 name = "nilsmf-ase"
 version = "0.1.0"
+authors = ["nilsien2001@gmail.com"]
+description = "This is the endpoints in the nilsmf-ase service"
+license = "Apache 2.0"
 edition = "2021"
-authors = ["Neelzee"]
 
 [dependencies]
 anyhow = "1.0.82"
@@ -16,5 +18,8 @@ serde_json = "1.0.116"
 time = "0.3.36"
 tokio = "1.37.0"
 utoipa = "4.2.0"
-utoipa-rapidoc = { version = "3.0.0", features = ["rocket"] }
-utoipa-swagger-ui = { version = "6.0.0", features = ["rocket"] }
+utoipa-rapidoc = { version = "4.0.0", features = ["rocket"] }
+utoipa-swagger-ui = { version = "7.0.1", features = ["rocket"] }
+env_logger = "0.11.3"
+log = "0.4.21"
+mongodb = "2.8.2"
